@@ -8,11 +8,14 @@
 //echo '<meta http-equiv="refresh" content="0;URL='.completeDirectory.'/index.php">';
 //echo '<a href="https://www.facebook.com/Roylaser31">Download HERE!</a>';
 ?>-->
+<p>
 mediana = suma de todos los numero y dividirlos entre los numeros que son
 moda = frecuencia con la que
 
 problema eje x altura
 eje y n de estudiados
+</p>
+
 <?php
 
 require("inc/constants.php");
@@ -56,12 +59,46 @@ require("inc/constants.php");
 
         var data = [1,2,3,4,5,6,7,8,9,10];
         var myChart = new Chart(ctx, {
-            type: 'line',
-            data: data,
+                    type: 'line',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'Orange', 'Orange', 'Orange', 'Orange', 'Orange'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: data,
+                    backgroundColor: [
+                        'rgba(255, 0, 0, 0.5)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
             options: {
-                hover: {
-                    // Overrides the global setting
-                    mode: 'index'
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
                 }
             }
         });
