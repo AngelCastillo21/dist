@@ -23,6 +23,20 @@ require("inc/constants.php");
 <!DOCTYPE html>
 <html>
     <head>
+        <style media="screen">
+            input.textNormal{
+                -webkit-transition: width 0.4s ease-in-out;
+                transition: width 0.4s ease-in-out;
+                border-radius: 25px;
+                width:100px;
+            }
+            textarea.textDatos{
+                -webkit-transition: width 0.4s ease-in-out;
+                transition: width 0.4s ease-in-out;
+                border-radius: 25px;
+                width:50%;
+            }
+        </style>
         <meta charset='utf-8'>
         <title>Distribucion</title>
     </head>
@@ -31,6 +45,9 @@ require("inc/constants.php");
         <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
 
         <link rel='shortcut icon' href='favicon.ico' type='image/x-icon'>
+
+        <p id="p1"></p><p id="p2"></p>
+
         <canvas style='height:40vh; width:80vw' id='myChart'></canvas>
         <div id="result"></div>
 
@@ -46,25 +63,24 @@ require("inc/constants.php");
         var valorMinimo = Math.min.apply(null, datos);
 
         var datos = [1, 2, 3, 4, 5, 6, 6, 7, 8, 9, 10, 10, 10, 10];
-        let labels = datos.sort();
         var mean = 0;
         var mode = 0;
         var median = 0;
+        var labels = [];
         var leng = datos.length;
+        //let labels = datos.sort();
         mean = findMean(datos);
         mode = findMode(datos);
         median = findMedian(datos);
+        dataYaX = getData(datos);
 
-        console.log(labels);
-
-        var data = [1,2,3,4,5,6,7,8,9,10];
         var myChart = new Chart(ctx, {
                     type: 'line',
             data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'Orange', 'Orange', 'Orange', 'Orange', 'Orange'],
+                labels: dataYaX[1],
                 datasets: [{
                     label: '# of Votes',
-                    data: data,
+                    data: dataYaX[0],
                     backgroundColor: [
                         'rgba(255, 0, 0, 0.5)',
                         'rgba(54, 162, 235, 0.2)',
@@ -89,7 +105,7 @@ require("inc/constants.php");
                         'rgba(153, 102, 255, 1)',
                         'rgba(255, 159, 64, 1)'
                     ],
-                    borderWidth: 1
+                    borderWidth: 3
                 }]
             },
             options: {
@@ -103,6 +119,43 @@ require("inc/constants.php");
             }
         });
 
+        var pa1 = "El Siguiente estudio de <input type='text' id='dataY' class='textNormal' placeholder='data Y'></input> ";
+        pa1 += "personas que fueron estudiadas para revisar <input type='text' id='dataX' class='textNormal' placeholder='data X'></input> ";
+        pa1 += "<br>la distribucion normal de la misma los datos que salieron fueron los siguientes<br>";
+        pa1 += "<textarea id='datos' class='textDatos' placeholder='values'>"+datos.toString()+"</textarea><br>";
+        pa1 += "y tener que el valor de la media="+mean+",moda="+mode+",mediana="+median+"";
+        document.getElementById("p1").innerHTML = pa1;
+        //document.getElementById("p2").innerHTML = pa2;
+
+        function getData(datos){
+            var cont = 0;
+    		var repetidos = [];
+            var valores = [];
+            var ant = 0;
+    		var total_numeros = datos.length;
+
+    		for (var i = 0; i < total_numeros; i++) {
+    			for (var j = 0; j < total_numeros; j++) {
+                    if (parseInt(datos[i]) == parseInt(datos[j])) {
+                        cont++;
+                    }
+    			}
+                if (ant == 0) {
+                    ant = datos[i];
+                    repetidos.push(cont);
+                    valores.push(datos[i]);
+                } else if (ant != datos[i]){
+                    ant = datos[i];
+                    repetidos.push(cont);
+                    valores.push(datos[i]);
+                }
+                cont = 0;
+            }
+            return [
+                repetidos,
+                valores
+            ];
+        }
         function findMean(datos){
             var sum = 0;
             for (let i = 0;i < datos.length;i++){
